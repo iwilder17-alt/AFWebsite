@@ -165,6 +165,29 @@
 .result--low  .result__verdict { color: var(--fit-low); }
 .scorer__foot { margin-top: 1rem; }
 
+/* ---- Credentials ------------------------------------------------------ */
+.creds { display: grid; gap: 2rem; margin-top: 2.4rem; }
+@media (min-width: 760px) {
+  .creds { grid-template-columns: 1.2fr 1fr 1fr; gap: 2.5rem; }
+}
+.creds__col { min-width: 0; }
+.creds__h {
+  font-family: var(--font-mono); font-size: var(--step--1); text-transform: uppercase;
+  letter-spacing: 0.07em; color: var(--accent); margin-bottom: 1rem;
+  padding-bottom: 0.5rem; border-bottom: 1px solid var(--line);
+}
+.creds__list { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.9rem; }
+.creds__list--bullets li { position: relative; padding-left: 1.1rem; line-height: 1.45; font-size: var(--step--1); color: var(--ink-soft); }
+.creds__list--bullets li::before { content: "—"; position: absolute; left: 0; color: var(--accent); }
+.creds__list--bullets strong { color: var(--ink); }
+.cred { display: grid; gap: 0.25rem; }
+.cred__row { display: flex; justify-content: space-between; align-items: baseline; gap: 0.8rem; flex-wrap: wrap; }
+.cred__role { font-weight: 600; font-size: var(--step-0); }
+.cred__when { font-size: var(--step--1); color: var(--muted); white-space: nowrap; }
+.cred__org { color: var(--accent); font-size: var(--step--1); }
+.cred p { margin-top: 0.5rem; }
+.creds__resume { margin-top: 1rem; padding-top: 0.8rem; border-top: 1px dashed var(--line-strong); font-style: italic; }
+
 /* ---- Contact ---------------------------------------------------------- */
 .section--contact { border-top: 1px solid var(--line); }
 .contact__title { margin-inline: auto; max-width: 28ch; font-size: var(--step-2); }
