@@ -186,7 +186,8 @@
 .cred__when { font-size: var(--step--1); color: var(--muted); white-space: nowrap; }
 .cred__org { color: var(--accent); font-size: var(--step--1); }
 .cred p { margin-top: 0.5rem; }
-.creds__resume { margin-top: 1rem; padding-top: 0.8rem; border-top: 1px dashed var(--line-strong); font-style: italic; }
+.creds__note { margin-top: 1rem; padding-top: 0.8rem; border-top: 1px dashed var(--line-strong); }
+.creds__resume { margin-top: 0.8rem; font-style: italic; }
 
 /* ---- Contact ---------------------------------------------------------- */
 .section--contact { border-top: 1px solid var(--line); }
