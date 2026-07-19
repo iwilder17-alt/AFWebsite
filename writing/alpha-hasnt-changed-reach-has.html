@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Alpha Hasn't Changed. Reach Has. — Ian Wilder</title>
+  <meta name="description" content="What nine months on one account taught me about signal-hunting — and what happens when you engineer the same hunt across 414 companies. An essay by Ian Wilder." />
+  <meta name="color-scheme" content="light dark" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%2317171a'/%3E%3Ctext x='50%25' y='53%25' dominant-baseline='middle' text-anchor='middle' font-family='monospace' font-weight='700' font-size='15' fill='%23fbfaf7'%3EIW%3C/text%3E%3Ccircle cx='25' cy='23' r='2.4' fill='%23b23a2e'/%3E%3C/svg%3E" />
+
+  <meta property="og:type" content="article" />
+  <meta property="og:title" content="Alpha Hasn't Changed. Reach Has." />
+  <meta property="og:description" content="What alpha looks like when you find it by hand, and what it looks like when you build a system that finds it for you — including where those systems break." />
+
+  <link rel="stylesheet" href="../css/styles.css" />
+  <link rel="stylesheet" href="../css/components.css" />
+  <link rel="stylesheet" href="../css/article.css" />
+</head>
+<body>
+  <!-- Nav -->
+  <header class="nav">
+    <div class="wrap nav__inner">
+      <a href="/" class="nav__brand mono">IW<span class="nav__brand-dot">.</span></a>
+      <a href="/#writing" class="nav__back">&larr; Back to portfolio</a>
+      <button id="themeToggle" class="theme-toggle" type="button" aria-label="Toggle colour theme" title="Toggle theme">
+        <span aria-hidden="true" class="theme-toggle__icon">◐</span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <article class="article">
+      <header class="article__head">
+        <p class="eyebrow">Essay</p>
+        <h1>Alpha Hasn't Changed. Reach Has.</h1>
+        <p class="article__dek">What nine months on one account taught me about signal-hunting — and what happens when you engineer the same hunt across 414 companies.</p>
+        <p class="article__meta mono">Ian Wilder · Field notes on GTM engineering</p>
+      </header>
+
+      <div class="prose">
+        <h2>The thesis</h2>
+        <p>There's a version of the "GTM is changing" post that gets written every week: AI is coming for sales, the SDR is dead, outbound is over. Most of it is written by people who've never carried a quota.</p>
+        <p>Here's what I've learned after six years carrying one: the job of a strong AE hasn't changed at all. It was never about activity volume or sequence cadence. It was always about finding alpha — a real, differentiated signal about an account that the rest of the market hasn't priced in yet. The vacancy number nobody else calculated. The stakeholder nobody else mapped. The operational dependency nobody else noticed.</p>
+        <p>What's changed isn't the hunt. It's the reach. Signal discovery used to be artisanal — one account at a time, months of digging, and it only scaled as far as your calendar did. GTM engineering is the fluency that takes the same hunt and runs it across hundreds of accounts at once. The tools became cheap. The fluency became the premium.</p>
+        <p>This piece is about both halves: what alpha looks like when you find it by hand, and what it looks like when you build a system that finds it for you — including where those systems break, because they do.</p>
+
+        <h2>Alpha, the manual way: nine months on one account</h2>
+        <p>The best deal I've closed started with a number nobody handed me. Working a regional property management company, I pulled their portfolio apart and sourced nearly $12.1M in preventable vacancy loss — not from a dashboard, but from assembling it myself out of listing data, market comps, and their own operational gaps. That number was the alpha: real, specific, and invisible to every competitor running a standard pitch.</p>
+        <p>The second signal was human. Their management structure was archaic — decision-making concentrated in ways an org chart wouldn't show you. The path in wasn't the title you'd expect; it was a private money investor in the company. Multithreading through that investor is what eventually unlocked the deal: roughly $1.2M in ARR.</p>
+        <p class="beat">It took nine months.</p>
+        <p>That's the honest math of manual alpha. One account, two signals — one quantitative, one relational — and the better part of a year to find and work them. It's the highest-value work an AE can do, and it's completely unscalable. You cannot run that motion across a 400-account book. Until recently, nobody could.</p>
+
+        <h2>The same hunt, engineered</h2>
+        <p>To make the contrast concrete, I rebuilt that nine-month hunt as a system — in my own vertical, US residential leasing, so I could judge the output against domain knowledge I actually have. That last part matters more than it sounds; we'll come back to it.</p>
+        <p>The architecture is simple to describe. A source table of 414 US residential leasing companies feeds a company table enriched to 15 columns. Off that table hang three signal watchers, each refreshing monthly: job postings, new hires, and news &amp; fundraising events. Each watcher writes into its own person-level table when something fires.</p>
+
+        <figure class="figure">
+          <div class="figure__diagram" aria-label="Signal architecture diagram"><code>414-company source table  → enriched to 15 columns
+        │
+        ├─▶  Job postings        → person table     (8 fired)
+        ├─▶  New hires           → person table     (9 fired)
+        └─▶  News &amp; fundraising  → person table     (3 fired)
+                                    refreshes monthly, on its own
+        ────────────────────────────────────────────
+        ~20 real events across 414 companies / month</code></div>
+          <figcaption>The Clay build: one source table, three monthly signal watchers, each writing person-level rows only when something real fires.</figcaption>
+        </figure>
+
+        <p>Here's the number that matters. Across 414 companies, the first pass surfaced roughly twenty events total — 8 job postings, 9 new hires, 3 news and fundraising items. That ratio is the whole point. Alpha is rare by definition; if your system surfaces signals on every account, it isn't finding alpha, it's generating noise. Twenty real events across four hundred companies is a book I can actually work — every one of them a reason to call that didn't exist last month, at a cost measured in fractions of a credit per row.</p>
+        <p>Nine months of manual digging found me two signals on one account. This table watches 414 accounts for three signal classes, forever, and refreshes while I sleep. The hunt is identical — operational change, money movement, people movement. The reach is not.</p>
+        <p>The same pattern extends past events into inference. In a separate build targeting legal AI, I used Claygent to scrub which competing tools a firm actually uses — displacement signals — and fed the results into a scored ICP model that ranks accounts the way a good AE would triage a territory. Different vertical, same shape: define the signal a strong seller would hunt for, then build the column that hunts it at scale.</p>
+
+        <h2>Where it breaks (and why that's the job)</h2>
+        <p>Here's what the LinkedIn version of this post leaves out: these systems break constantly, and the breakage is not a bug in the tooling. It's the job.</p>
+        <p><strong>Columns hallucinated.</strong> AI enrichment steps returned confident, wrong answers — the model reasoning its way to a plausible fact instead of retrieving a real one. The fix wasn't a better model; it was architectural: separate retrieval from reasoning, so one step gathers evidence and a different step draws conclusions from it. Let a single prompt do both and your table is broken before you've built it.</p>
+        <p><strong>Scoring drifted.</strong> I rebalanced the ICP model multiple times — not because the math was wrong, but because accounts I <em>knew</em> should rank high weren't ranking high. My domain knowledge was the test set. Every rebalance was me feeding seller judgment back into the machine until its triage matched what a good AE's triage would be. I don't have a clean before-and-after screenshot of a single dramatic miscall, and I'm suspicious of writeups that do — the real experience is a dozen small corrections, continuously.</p>
+        <p>Which is the actual lesson: GTM engineering is not an out-of-the-box fix for a GTM motion. It's a toolkit for building a better model of your market — and that model needs constant triage and insight fed into it to stay true. The system finds signals at scale, but it only knows what a signal <em>is</em> because a seller taught it. Strip the seller judgment out and you've built a very fast machine for being wrong everywhere at once.</p>
+
+        <h2>The fluency is the premium</h2>
+        <p>So what does this mean if you carry a bag?</p>
+        <p>Not that you're being replaced. The uncomfortable truth is more specific: the <em>median</em> AE is being outrun — by the seller who can do what you do, at forty times the reach. The instincts that made you good — knowing which operational gap means money, which title actually holds the pen, which funding event changes a roadmap — those are exactly the instincts these systems need fed into them to work at all. The machine doesn't replace the judgment. It amortizes it.</p>
+        <p>That's the trade every strong seller should be looking at. Nine months of judgment applied to one account produced a $1.2M deal. The same judgment, encoded into a table, now watches 414 accounts continuously. The judgment didn't get cheaper. It got leveraged.</p>
+        <p>The AEs who treat GTM engineering as someone else's job — an ops function, a tool the company buys — will keep running the artisanal motion and wonder why their pipeline looks like everyone else's. The ones who treat it as fluency, the way a previous generation treated CRM hygiene or discovery frameworks, will hunt alpha in places the market hasn't priced yet. That was always the job. Now it just reaches farther.</p>
+      </div>
+
+      <footer class="article__foot">
+        <a class="btn" href="/#work">&larr; See the builds behind this</a>
+        <a class="btn btn--primary" href="/#contact">Let's connect &rarr;</a>
+      </footer>
+    </article>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap footer__inner small muted">
+      <span>Ian Wilder — 2026</span>
+      <span class="mono">Hand-built. No template. One honest message, one effortless opt-out.</span>
+    </div>
+  </footer>
+
+  <script src="../js/site.js" defer></script>
+</body>
+</html>

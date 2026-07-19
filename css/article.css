@@ -1,0 +1,41 @@
+/* =========================================================================
+   article.css — long-form essay page (reuses tokens from styles.css)
+   ========================================================================= */
+.article { width: min(100% - 2.5rem, 720px); margin-inline: auto; padding-block: clamp(2.4rem, 5vw, 4.5rem); }
+
+.article__head { margin-bottom: clamp(2rem, 4vw, 3rem); }
+.article__head h1 { font-size: var(--step-4); margin-top: 0.6rem; letter-spacing: -0.02em; max-width: 18ch; }
+.article__dek { font-size: var(--step-1); color: var(--ink-soft); margin-top: 1.1rem; line-height: 1.45; }
+.article__meta { color: var(--muted); font-size: var(--step--1); margin-top: 1.2rem; padding-top: 1rem; border-top: 1px solid var(--line); }
+
+.prose { font-size: var(--step-0); }
+.prose > * + * { margin-top: 1.35rem; }
+.prose p { line-height: 1.75; }
+.prose h2 {
+  font-size: var(--step-2); margin-top: clamp(2.4rem, 5vw, 3.4rem); line-height: 1.15;
+}
+.prose em { font-style: italic; }
+.prose strong { font-weight: 600; }
+.prose blockquote {
+  border-left: 3px solid var(--accent); padding-left: 1.3rem; margin: 2rem 0;
+  font-family: var(--font-serif); font-style: italic; font-size: var(--step-1);
+  color: var(--ink); line-height: 1.35;
+}
+.prose .lede { font-size: var(--step-1); color: var(--ink); line-height: 1.55; }
+.prose .beat { font-family: var(--font-serif); font-size: var(--step-1); color: var(--ink); }
+
+/* Architecture figure (stands in for a Clay screenshot) */
+.figure { margin: 2.2rem 0; }
+.figure__diagram {
+  background: var(--paper-2); border: 1px solid var(--line); border-left: 3px solid var(--accent);
+  border-radius: var(--radius); padding: 1.1rem 1.2rem; overflow-x: auto; max-width: 100%;
+  font-family: var(--font-mono); font-size: 0.78rem; line-height: 1.7; color: var(--ink-soft);
+}
+.figure__diagram code { white-space: pre; }
+.figure figcaption { font-size: var(--step--1); color: var(--muted); margin-top: 0.7rem; line-height: 1.4; }
+
+.article__foot { display: flex; gap: 0.8rem; flex-wrap: wrap; margin-top: 3rem; padding-top: 1.8rem; border-top: 1px solid var(--line); }
+
+/* Back link in the nav slot */
+.nav__back { font-size: var(--step--1); color: var(--ink-soft); text-decoration: none; }
+.nav__back:hover { color: var(--accent); }
