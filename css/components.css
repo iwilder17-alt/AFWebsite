@@ -15,7 +15,7 @@
 .nav__links { display: flex; gap: clamp(0.9rem, 2vw, 1.6rem); }
 .nav__links a { text-decoration: none; font-size: var(--step--1); color: var(--ink-soft); }
 .nav__links a:hover { color: var(--accent); }
-@media (max-width: 560px) { .nav__links a[href="#principles"] { display: none; } }
+@media (max-width: 620px) { .nav__links a.nav--optional { display: none; } }
 
 .theme-toggle {
   border: 1px solid var(--line-strong); background: transparent; color: var(--ink);
@@ -164,6 +164,34 @@
 .result--mid  .result__verdict { color: var(--fit-mid); }
 .result--low  .result__verdict { color: var(--fit-low); }
 .scorer__foot { margin-top: 1rem; }
+
+/* ---- Writing ---------------------------------------------------------- */
+.essay {
+  display: block; text-decoration: none; color: inherit; margin-top: 2rem;
+  border: 1px solid var(--line-strong); border-left: 3px solid var(--accent);
+  border-radius: calc(var(--radius) * 2); background: var(--paper-2);
+  padding: clamp(1.4rem, 3.5vw, 2.6rem);
+  transition: transform .15s ease, border-color .2s, box-shadow .2s;
+}
+.essay:hover, .essay:focus-visible {
+  transform: translateY(-2px); border-color: var(--accent); color: inherit;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+}
+.essay__kicker { font-size: var(--step--1); letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); }
+.essay__title { font-size: var(--step-2); margin-top: 0.5rem; }
+.essay__dek { color: var(--ink-soft); margin-top: 0.6rem; max-width: 62ch; }
+.essay__quote {
+  font-family: var(--font-serif); font-style: italic; font-size: var(--step-2);
+  line-height: 1.2; color: var(--ink); margin: 1.6rem 0; padding: 0; border: 0;
+}
+.essay__contrast { display: grid; gap: 1.2rem; margin: 1.4rem 0; }
+@media (min-width: 620px) { .essay__contrast { grid-template-columns: 1fr 1fr; gap: 2rem; } }
+.essay__side { border-top: 1px solid var(--line-strong); padding-top: 0.7rem; }
+.essay__side-label { font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); }
+.essay__side p { margin-top: 0.35rem; font-size: var(--step--1); color: var(--ink-soft); line-height: 1.45; }
+.essay__side strong { color: var(--ink); }
+.essay__cta { display: inline-flex; color: var(--accent); font-weight: 600; font-size: var(--step--1); margin-top: 0.6rem; }
+.essay:hover .essay__cta { text-decoration: underline; text-underline-offset: 0.2em; }
 
 /* ---- Credentials ------------------------------------------------------ */
 .creds { display: grid; gap: 2rem; margin-top: 2.4rem; }
