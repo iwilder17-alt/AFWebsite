@@ -245,6 +245,68 @@
 :root[data-mode="arcade"] .footer__inner { font-family: var(--font-mono); font-size: 1.05rem; }
 
 /* =========================================================================
+   STAGE SELECT hub + screen system (ARCADE ONLY)
+   ========================================================================= */
+/* These elements never appear in PRO mode */
+.stage-select, .stage-back { display: none; }
+
+:root[data-mode="arcade"] .stage-select { display: block; }
+:root[data-mode="arcade"] .hero__cta { display: none; }          /* grid replaces CTAs */
+/* one screen at a time */
+:root[data-mode="arcade"] [data-screen][hidden] { display: none !important; }
+:root[data-mode="arcade"] [data-screen]:not([hidden]) { animation: screen-in 0.28s ease both; }
+
+.stage-grid { display: grid; gap: 1rem; margin-top: 1.5rem; }
+@media (min-width: 640px) { .stage-grid { grid-template-columns: 1fr 1fr; gap: 1.4rem; } }
+.stage {
+  --sc: var(--arc-blue);
+  display: grid; gap: 0.4rem; text-decoration: none; color: var(--ink);
+  border: 3px solid var(--line-strong); background: #05060f; padding: 1.1rem 1.2rem;
+  box-shadow: 5px 5px 0 rgba(0,0,0,0.5); position: relative; transition: transform .1s, border-color .15s, box-shadow .1s;
+}
+.stage[data-c="blue"]   { --sc: var(--arc-blue); }
+.stage[data-c="pink"]   { --sc: var(--accent); }
+.stage[data-c="yellow"] { --sc: var(--arc-yellow); }
+.stage[data-c="green"]  { --sc: var(--arc-green); }
+.stage:hover, .stage:focus-visible {
+  border-color: var(--sc); color: var(--ink); outline: none;
+  transform: translate(-2px, -2px); box-shadow: 7px 7px 0 rgba(0,0,0,0.55);
+}
+.stage:hover::before, .stage:focus-visible::before {
+  content: "\25B6"; position: absolute; left: -1.4rem; top: 1.1rem; color: var(--sc);
+  animation: arc-blink 0.7s steps(1) infinite;
+}
+.stage__no { font-family: var(--font-serif); font-size: 0.5rem; color: var(--sc); letter-spacing: 0.04em; }
+.stage__icon { font-size: 1.9rem; line-height: 1; }
+.stage__name { font-family: var(--font-serif); font-size: 0.8rem; color: var(--ink); text-shadow: 3px 3px 0 rgba(0,0,0,0.6); }
+.stage__hint { font-size: 1.05rem; color: var(--muted); line-height: 1.3; }
+.stage-extra { display: flex; gap: 0.8rem; flex-wrap: wrap; margin-top: 1.5rem; }
+
+/* Back-to-hub button (only when not on the hub screen) */
+:root[data-mode="arcade"] body.screen-not-hub .stage-back {
+  display: inline-flex; align-items: center; position: fixed; z-index: 45;
+  top: 70px; left: 12px; cursor: pointer;
+  font-family: var(--font-serif); font-size: 0.55rem; color: #fff;
+  background: var(--accent); border: 2px solid #fff; border-radius: 0;
+  box-shadow: 3px 3px 0 rgba(0,0,0,0.6); padding: 0.5rem 0.7rem;
+}
+:root[data-mode="arcade"] body.screen-not-hub .stage-back:hover {
+  background: var(--arc-yellow); color: #000; border-color: #000; transform: translate(-1px,-1px);
+}
+/* give screens breathing room below the fixed back button */
+:root[data-mode="arcade"] body.screen-not-hub main { padding-top: 2.6rem; }
+
+@keyframes screen-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+@media (prefers-reduced-motion: reduce) {
+  :root[data-mode="arcade"] [data-screen]:not([hidden]) { animation: none; }
+  .stage:hover::before, .stage:focus-visible::before { animation: none; }
+}
+@media (max-width: 560px) {
+  .stage__name { font-size: 0.7rem; }
+  :root[data-mode="arcade"] body.screen-not-hub .stage-back { top: 62px; font-size: 0.5rem; }
+}
+
+/* =========================================================================
    BOOT / TITLE SCREEN
    ========================================================================= */
 .boot.is-on {

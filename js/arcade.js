@@ -81,9 +81,11 @@
     paintModeBtn();
     if (next === "arcade") {
       startTetris();
+      showScreen(screenFromHash(), false);
       if (animate) { snd.coin(); showBoot(); }
     } else {
       stopTetris();
+      showAllScreens();
     }
     // re-render the scorer so its verdict matches the active mode
     var ft = document.getElementById("f-title");
@@ -229,10 +231,77 @@
     })();
   }
 
+  /* ---------- Stage-select screen system (arcade only) ----------------- */
+  var screens = Array.prototype.slice.call(document.querySelectorAll("[data-screen]"));
+  var stageBack = document.getElementById("stageBack");
+  var currentScreen = "hub";
+
+  function hasScreen(name) {
+    for (var i = 0; i < screens.length; i++) if (screens[i].dataset.screen === name) return true;
+    return false;
+  }
+  function screenOfId(id) {
+    if (!id || id === "top") return "hub";
+    var el = document.getElementById(id);
+    if (!el) return null;
+    var host = el.closest("[data-screen]");
+    return host ? host.dataset.screen : null;
+  }
+  function screenFromHash() { return screenOfId((location.hash || "").slice(1)) || "hub"; }
+
+  function showScreen(name, push, focusId) {
+    if (mode() !== "arcade") return;
+    if (!hasScreen(name)) name = "hub";
+    for (var i = 0; i < screens.length; i++) screens[i].hidden = (screens[i].dataset.screen !== name);
+    document.body.classList.toggle("screen-not-hub", name !== "hub");
+    currentScreen = name;
+    if (push) {
+      var target = name === "hub" ? location.pathname : "#" + name;
+      try { history.pushState({ s: name }, "", target); } catch (e) {}
+    }
+    var scrolled = false;
+    if (focusId && focusId !== name && focusId !== "top") {
+      var t = document.getElementById(focusId);
+      if (t) { t.scrollIntoView({ block: "start" }); scrolled = true; }
+    }
+    if (!scrolled) window.scrollTo(0, 0);
+  }
+  function showAllScreens() {
+    for (var i = 0; i < screens.length; i++) screens[i].hidden = false;
+    document.body.classList.remove("screen-not-hub");
+  }
+  function navigateTo(id, push) { showScreen(screenOfId(id) || "hub", push, id); snd.blip(); }
+
+  document.addEventListener("click", function (e) {
+    if (mode() !== "arcade") return;
+    var a = e.target.closest('a[href^="#"]');
+    if (!a) return;
+    e.preventDefault();
+    navigateTo(a.getAttribute("href").slice(1), true);
+  });
+  if (stageBack) stageBack.addEventListener("click", function () { navigateTo("", true); });
+  window.addEventListener("popstate", function () {
+    if (mode() === "arcade") showScreen(screenFromHash(), false);
+  });
+  // Arrow-key movement between stage tiles (only after a tile is focused)
+  window.addEventListener("keydown", function (e) {
+    if (mode() !== "arcade" || currentScreen !== "hub") return;
+    var tiles = Array.prototype.slice.call(document.querySelectorAll("#stageGrid .stage"));
+    var idx = tiles.indexOf(document.activeElement);
+    if (idx < 0) return;
+    var cols = window.matchMedia("(min-width:640px)").matches ? 2 : 1, n = idx;
+    if (e.key === "ArrowRight") n = Math.min(tiles.length - 1, idx + 1);
+    else if (e.key === "ArrowLeft") n = Math.max(0, idx - 1);
+    else if (e.key === "ArrowDown") n = Math.min(tiles.length - 1, idx + cols);
+    else if (e.key === "ArrowUp") n = Math.max(0, idx - cols);
+    else return;
+    e.preventDefault(); tiles[n].focus(); snd.blip();
+  });
+
   /* ---------- Init ----------------------------------------------------- */
   // data-mode was set pre-paint by an inline <head> script to avoid FOUC.
   // Arcade is the default; boot the title screen once per session only, so
   // reloads and page-to-page navigation don't replay it every time.
-  if (mode() === "arcade") { startTetris(); if (!bootedThisSession()) showBoot(); }
+  if (mode() === "arcade") { startTetris(); showScreen(screenFromHash(), false); if (!bootedThisSession()) showBoot(); }
   enhanceScorer();
 })();

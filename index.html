@@ -33,6 +33,8 @@
     </div>
   </div>
 
+  <button id="stageBack" class="stage-back" type="button" aria-label="Back to stage select">◀ SELECT</button>
+
   <!-- ===================== NAV ===================== -->
   <header class="nav">
     <div class="wrap nav__inner">
@@ -57,7 +59,7 @@
 
   <main id="top">
     <!-- ===================== HERO ===================== -->
-    <section class="hero">
+    <section class="hero" data-screen="hub">
       <div class="wrap">
         <p class="eyebrow">Strategic Enterprise AE · GTM Engineer</p>
         <h1 class="hero__title">
@@ -76,8 +78,45 @@
       </div>
     </section>
 
+    <!-- ===================== STAGE SELECT (arcade hub only) ===================== -->
+    <section class="stage-select" data-screen="hub" aria-label="Stage select">
+      <div class="wrap">
+        <p class="eyebrow">Select stage — ▲ ▼ move · ↵ enter</p>
+        <div class="stage-grid" id="stageGrid">
+          <a class="stage" href="#work" data-c="blue">
+            <span class="stage__no mono">STAGE 1</span>
+            <span class="stage__icon" aria-hidden="true">🥊</span>
+            <span class="stage__name">THE WORK</span>
+            <span class="stage__hint">3 case studies — build logs, metrics, K.O.'s</span>
+          </a>
+          <a class="stage" href="#scorer" data-c="pink">
+            <span class="stage__no mono">STAGE 2</span>
+            <span class="stage__icon" aria-hidden="true">🎯</span>
+            <span class="stage__name">SPARRING</span>
+            <span class="stage__hint">the live lead scorer — SEND / DODGE</span>
+          </a>
+          <a class="stage" href="#credentials" data-c="yellow">
+            <span class="stage__no mono">HIGH SCORES</span>
+            <span class="stage__icon" aria-hidden="true">🏆</span>
+            <span class="stage__name">THE RECORD</span>
+            <span class="stage__hint">experience · results · education</span>
+          </a>
+          <a class="stage" href="#writing" data-c="green">
+            <span class="stage__no mono">STORY</span>
+            <span class="stage__icon" aria-hidden="true">📜</span>
+            <span class="stage__name">THE THESIS</span>
+            <span class="stage__hint">Alpha Hasn't Changed. Reach Has.</span>
+          </a>
+        </div>
+        <div class="stage-extra">
+          <a class="btn btn--primary" href="#contact">▸ CONTINUE — CONTACT</a>
+          <a class="btn" href="#principles">HOUSE RULES</a>
+        </div>
+      </div>
+    </section>
+
     <!-- ===================== PROOF BAR ===================== -->
-    <section class="proof" aria-label="Proof points">
+    <section class="proof" aria-label="Proof points" data-screen="hub">
       <div class="wrap proof__grid">
         <div class="stat">
           <span class="stat__num">171<span class="stat__unit">%</span></span>
@@ -99,7 +138,7 @@
     </section>
 
     <!-- ===================== PRINCIPLES ===================== -->
-    <section id="principles" class="section">
+    <section id="principles" class="section" data-screen="hub">
       <div class="wrap">
         <p class="eyebrow">How I work</p>
         <h2 class="section__title measure">Most sellers spray accounts. I earn one real conversation — and I engineer the system that finds it.</h2>
@@ -137,7 +176,7 @@
     </section>
 
     <!-- ===================== WORK ===================== -->
-    <section id="work" class="section">
+    <section id="work" class="section" data-screen="work">
       <div class="wrap">
         <p class="eyebrow">Selected work</p>
         <h2 class="section__title measure">Three builds. Two show I can engineer the system. One shows I can close on it.</h2>
@@ -280,7 +319,7 @@ Campaign Events / Replies / blocklist ✔ WIRED
     </section>
 
     <!-- ===================== WRITING ===================== -->
-    <section id="writing" class="section section--writing">
+    <section id="writing" class="section section--writing" data-screen="writing">
       <div class="wrap">
         <p class="eyebrow">Writing</p>
         <h2 class="section__title measure">I don't just build the systems. I can tell you exactly why they work — and where they break.</h2>
@@ -309,7 +348,7 @@ Campaign Events / Replies / blocklist ✔ WIRED
     </section>
 
     <!-- ===================== SCORER (you-only) ===================== -->
-    <section id="scorer" class="section section--scorer">
+    <section id="scorer" class="section section--scorer" data-screen="scorer">
       <div class="wrap">
         <p class="eyebrow">Live tool — not a screenshot</p>
         <h2 class="section__title measure">The scorer, running. This is the gating logic from Case&nbsp;01, working in your browser.</h2>
@@ -366,7 +405,7 @@ Campaign Events / Replies / blocklist ✔ WIRED
     </section>
 
     <!-- ===================== CREDENTIALS ===================== -->
-    <section id="credentials" class="section">
+    <section id="credentials" class="section" data-screen="credentials">
       <div class="wrap">
         <p class="eyebrow">Credentials</p>
         <h2 class="section__title measure">The short version — the record behind the wedge.</h2>
@@ -421,7 +460,7 @@ Campaign Events / Replies / blocklist ✔ WIRED
     </section>
 
     <!-- ===================== CONTACT ===================== -->
-    <section id="contact" class="section section--contact">
+    <section id="contact" class="section section--contact" data-screen="contact">
       <div class="wrap center">
         <p class="eyebrow">Say hello</p>
         <h2 class="section__title contact__title">I like trading notes with people building GTM systems and selling complex products into complex orgs. If that's you, let's connect.</h2>
