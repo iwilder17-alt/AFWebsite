@@ -42,8 +42,11 @@
   /* ---------- Boot / title screen -------------------------------------- */
   var boot = document.getElementById("bootScreen");
   var bootTimer = null;
+  function bootedThisSession() { try { return sessionStorage.getItem("iw-booted") === "1"; } catch (e) { return false; } }
+  function markBooted() { try { sessionStorage.setItem("iw-booted", "1"); } catch (e) {} }
   function showBoot() {
-    if (!boot || reduce) return;
+    if (!boot || reduce) { markBooted(); return; }
+    markBooted();
     boot.classList.remove("is-off");
     boot.classList.add("is-on");
     clearTimeout(bootTimer);
@@ -228,6 +231,8 @@
 
   /* ---------- Init ----------------------------------------------------- */
   // data-mode was set pre-paint by an inline <head> script to avoid FOUC.
-  if (mode() === "arcade") { startTetris(); showBoot(); }
+  // Arcade is the default; boot the title screen once per session only, so
+  // reloads and page-to-page navigation don't replay it every time.
+  if (mode() === "arcade") { startTetris(); if (!bootedThisSession()) showBoot(); }
   enhanceScorer();
 })();
