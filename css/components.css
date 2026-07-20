@@ -16,11 +16,21 @@
 .nav__links a { text-decoration: none; font-size: var(--step--1); color: var(--ink-soft); }
 .nav__links a:hover { color: var(--accent); }
 @media (max-width: 620px) { .nav__links a.nav--optional { display: none; } }
+.mode-toggle__icon { line-height: 1; }
+.mode-toggle__label { margin-left: 0.2rem; }
+/* On phones, keep the nav from overflowing: drop the light/dark toggle and
+   tighten spacing; the ARCADE toggle and jump links stay. */
+@media (max-width: 560px) {
+  .nav__links { gap: 0.75rem; }
+  .nav__controls { gap: 0.4rem; }
+  .theme-toggle { display: none; }
+}
 
+.nav__controls { display: flex; align-items: center; gap: 0.5rem; }
 .theme-toggle {
   border: 1px solid var(--line-strong); background: transparent; color: var(--ink);
   width: 34px; height: 34px; border-radius: 50%; cursor: pointer; font-size: 1rem;
-  display: grid; place-items: center; transition: border-color .2s, transform .2s;
+  display: grid; place-items: center; transition: border-color .2s, transform .2s; flex: none;
 }
 .theme-toggle:hover { border-color: var(--accent); transform: rotate(-20deg); }
 

@@ -1,0 +1,296 @@
+/* =========================================================================
+   arcade.css — ARCADE MODE skin (NES / Punch-Out + Tetris)
+   Everything is scoped under :root[data-mode="arcade"] so PRO mode is
+   untouched. Self-hosted pixel fonts; only fetched when arcade renders.
+   ========================================================================= */
+
+@font-face {
+  font-family: "Press Start 2P";
+  src: url("../fonts/press-start-2p.woff2") format("woff2");
+  font-weight: 400; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "VT323";
+  src: url("../fonts/vt323.woff2") format("woff2");
+  font-weight: 400; font-style: normal; font-display: swap;
+}
+
+/* ---- Controls visible in PRO mode (the way IN) ------------------------ */
+.mode-toggle {
+  font-family: var(--font-mono); font-size: var(--step--1); cursor: pointer;
+  border: 1px solid var(--line-strong); background: var(--ink); color: var(--paper);
+  padding: 0.4rem 0.7rem; border-radius: var(--radius); white-space: nowrap;
+  display: inline-flex; align-items: center; gap: 0.35rem; transition: transform .12s, background .18s;
+}
+.mode-toggle:hover { background: var(--accent); border-color: var(--accent); color: #fff; transform: translateY(-1px); }
+.sound-toggle { display: none; }
+
+/* Boot screen hidden unless activated by JS */
+.boot { display: none; }
+
+/* =========================================================================
+   ARCADE MODE
+   ========================================================================= */
+:root[data-mode="arcade"] {
+  --paper: #0b0e24;
+  --paper-2: #151b3d;
+  --ink: #f2f4ff;
+  --ink-soft: #c3cbf5;
+  --muted: #8b93cf;
+  --line: rgba(130,150,255,0.30);
+  --line-strong: rgba(160,180,255,0.55);
+  --accent: #ff5aa8;            /* Punch-Out ring pink */
+  --accent-soft: rgba(255,90,168,0.16);
+  --fit-high: #49e08a;
+  --fit-mid: #ffd53d;
+  --fit-low: #ff4757;
+  /* extra arcade hues (tetrominoes / HUD) */
+  --arc-blue: #46b5ff;
+  --arc-green: #49e08a;
+  --arc-yellow: #ffd53d;
+  --arc-red: #ff4757;
+  --arc-purple: #b57bff;
+  --arc-orange: #ff9f43;
+  --arc-cyan: #45e6d5;
+  --font-serif: "Press Start 2P", "VT323", monospace;
+  --font-sans: "VT323", ui-monospace, monospace;
+  --font-mono: "VT323", ui-monospace, monospace;
+  --radius: 0px;
+}
+
+:root[data-mode="arcade"] body {
+  background:
+    radial-gradient(circle at 50% -10%, #1b2255 0%, #0b0e24 60%, #070917 100%);
+  color: var(--ink);
+  font-size: clamp(1.15rem, 1.05rem + 0.6vw, 1.4rem);   /* VT323 is small */
+  line-height: 1.5;
+  letter-spacing: 0.01em;
+}
+
+/* CRT scanlines + vignette overlay */
+:root[data-mode="arcade"] body::after {
+  content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 40;
+  background:
+    repeating-linear-gradient(0deg, rgba(0,0,0,0.16) 0 1px, transparent 1px 3px),
+    radial-gradient(circle at 50% 50%, transparent 60%, rgba(0,0,0,0.45) 100%);
+  mix-blend-mode: multiply; opacity: 0.55;
+}
+
+/* Tetris block canvas behind everything */
+#tetrisBg { display: none; }
+:root[data-mode="arcade"] #tetrisBg {
+  display: block; position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: 0.22;
+}
+:root[data-mode="arcade"] .nav,
+:root[data-mode="arcade"] main,
+:root[data-mode="arcade"] .footer { position: relative; z-index: 1; }
+
+/* Headings → pixel font */
+:root[data-mode="arcade"] h1,
+:root[data-mode="arcade"] h2,
+:root[data-mode="arcade"] h3,
+:root[data-mode="arcade"] h4 {
+  font-family: var(--font-serif);
+  letter-spacing: 0; line-height: 1.5; overflow-wrap: break-word;
+  text-shadow: 3px 3px 0 rgba(0,0,0,0.6);
+}
+:root[data-mode="arcade"] .hero__title { font-size: clamp(1.1rem, 0.7rem + 2.4vw, 2.2rem); line-height: 1.6; }
+:root[data-mode="arcade"] .section__title { font-size: clamp(0.85rem, 0.6rem + 1.3vw, 1.35rem); line-height: 1.7; }
+:root[data-mode="arcade"] .case__title,
+:root[data-mode="arcade"] .essay__title { font-size: clamp(0.8rem, 0.6rem + 1.1vw, 1.2rem); line-height: 1.7; }
+:root[data-mode="arcade"] .hero__lead,
+:root[data-mode="arcade"] .case__dek,
+:root[data-mode="arcade"] .essay__dek { font-size: clamp(1.15rem, 1rem + 0.7vw, 1.45rem); }
+
+/* Eyebrows / kickers → HUD label */
+:root[data-mode="arcade"] .eyebrow,
+:root[data-mode="arcade"] .case__sub,
+:root[data-mode="arcade"] .creds__h,
+:root[data-mode="arcade"] .essay__kicker,
+:root[data-mode="arcade"] .case__index {
+  font-family: var(--font-serif); font-size: 0.6rem; line-height: 1.6;
+  color: var(--arc-yellow); letter-spacing: 0.02em;
+}
+:root[data-mode="arcade"] .case__index { color: var(--accent); }
+
+/* Links & accent text */
+:root[data-mode="arcade"] .u-accent { color: var(--arc-yellow); text-shadow: 3px 3px 0 rgba(0,0,0,0.6); }
+:root[data-mode="arcade"] a:hover { color: var(--arc-yellow); }
+
+/* ---- Nav → HUD bar ---------------------------------------------------- */
+:root[data-mode="arcade"] .nav {
+  background: #05060f; border-bottom: 3px solid var(--accent); backdrop-filter: none;
+}
+:root[data-mode="arcade"] .nav__brand { font-family: var(--font-serif); font-size: 0.75rem; color: var(--arc-green); }
+:root[data-mode="arcade"] .nav__brand-dot { color: var(--accent); }
+:root[data-mode="arcade"] .nav__links a {
+  font-family: var(--font-mono); text-transform: uppercase; letter-spacing: 0.08em;
+  font-size: 1.05rem; color: var(--ink-soft);
+}
+:root[data-mode="arcade"] .nav__links a:hover { color: var(--arc-yellow); }
+:root[data-mode="arcade"] .mode-toggle {
+  font-family: var(--font-serif); font-size: 0.55rem; background: var(--accent);
+  color: #fff; border: 2px solid #fff; box-shadow: 3px 3px 0 rgba(0,0,0,0.6); border-radius: 0;
+  animation: arc-blink 1.1s steps(1) infinite;
+}
+:root[data-mode="arcade"] .mode-toggle:hover { background: var(--arc-yellow); color: #000; animation: none; }
+:root[data-mode="arcade"] .sound-toggle {
+  display: inline-flex; align-items: center; gap: 0.3rem; cursor: pointer;
+  font-family: var(--font-serif); font-size: 0.5rem; padding: 0.35rem 0.5rem;
+  background: transparent; color: var(--arc-green); border: 2px solid var(--line-strong); border-radius: 0;
+}
+:root[data-mode="arcade"] .sound-toggle:hover { border-color: var(--arc-green); }
+:root[data-mode="arcade"] .theme-toggle { display: none; } /* one skin at a time */
+
+@keyframes arc-blink { 50% { opacity: 0.35; } }
+
+/* ---- Pixel panels: cards, sections ------------------------------------ */
+:root[data-mode="arcade"] .section { border-top: 3px solid var(--line); }
+:root[data-mode="arcade"] .proof { background: #05060f; border-block: 3px solid var(--accent); }
+
+:root[data-mode="arcade"] .case,
+:root[data-mode="arcade"] .scorer,
+:root[data-mode="arcade"] .essay,
+:root[data-mode="arcade"] .rule-card,
+:root[data-mode="arcade"] .scorer__result,
+:root[data-mode="arcade"] .buildlog {
+  border-radius: 0;
+}
+:root[data-mode="arcade"] .scorer,
+:root[data-mode="arcade"] .essay,
+:root[data-mode="arcade"] .rule-card {
+  border: 3px solid var(--line-strong); box-shadow: 6px 6px 0 rgba(0,0,0,0.5);
+  background: var(--paper-2); border-left-width: 3px;
+}
+:root[data-mode="arcade"] .buildlog {
+  border: 2px solid var(--arc-green); border-left: 3px solid var(--arc-green);
+  color: var(--arc-green); background: #05060f;
+}
+
+/* ---- Proof / HUD stat bars -------------------------------------------- */
+:root[data-mode="arcade"] .stat__num,
+:root[data-mode="arcade"] .result__verdict {
+  font-family: var(--font-serif); text-shadow: 3px 3px 0 rgba(0,0,0,0.6);
+}
+:root[data-mode="arcade"] .stat__num { font-size: clamp(1rem, 0.7rem + 1.6vw, 1.7rem); color: var(--arc-yellow); }
+:root[data-mode="arcade"] .stat__unit { color: var(--ink-soft); }
+:root[data-mode="arcade"] .stat__label { font-size: 1.05rem; color: var(--ink-soft); }
+/* little health-bar under each proof stat */
+:root[data-mode="arcade"] .proof .stat { position: relative; padding-bottom: 0.9rem; }
+:root[data-mode="arcade"] .proof .stat::after {
+  content: ""; position: absolute; left: 0; bottom: 0; height: 8px; width: 100%;
+  background:
+    linear-gradient(90deg, var(--arc-green) 0 85%, rgba(255,255,255,0.12) 85% 100%);
+  border: 1px solid #05060f; box-shadow: inset 0 0 0 1px rgba(255,255,255,0.15);
+}
+
+/* ---- Buttons → pixel buttons ------------------------------------------ */
+:root[data-mode="arcade"] .btn {
+  font-family: var(--font-serif); font-size: 0.6rem; border-radius: 0;
+  border: 2px solid var(--line-strong); box-shadow: 4px 4px 0 rgba(0,0,0,0.55);
+  padding: 0.85rem 1.1rem; letter-spacing: 0;
+}
+:root[data-mode="arcade"] .btn:hover { transform: translate(-1px,-1px); box-shadow: 6px 6px 0 rgba(0,0,0,0.55); color: var(--arc-yellow); border-color: var(--arc-yellow); }
+:root[data-mode="arcade"] .btn--primary { background: var(--accent); color: #fff; border-color: #fff; }
+:root[data-mode="arcade"] .btn--primary:hover { background: var(--arc-yellow); color: #000; border-color: #000; }
+
+/* ---- Case studies → LEVELS -------------------------------------------- */
+:root[data-mode="arcade"] .case__tag {
+  border: 2px solid var(--arc-blue); color: var(--arc-blue); border-radius: 0;
+  font-family: var(--font-mono); text-transform: uppercase; font-size: 0.95rem; letter-spacing: 0.06em;
+}
+:root[data-mode="arcade"] .ticks li::before { content: "\25B6"; color: var(--arc-green); }
+:root[data-mode="arcade"] .pill { border-radius: 0; font-family: var(--font-mono); font-size: 0.9rem; }
+:root[data-mode="arcade"] .principle__n { color: var(--arc-yellow); font-family: var(--font-serif); font-size: 0.7rem; }
+
+/* ---- Scorer → Punch-Out scouting screen ------------------------------- */
+:root[data-mode="arcade"] .section--scorer { background: #05060f; }
+:root[data-mode="arcade"] .field label { font-family: var(--font-mono); text-transform: uppercase; letter-spacing: 0.05em; font-size: 1rem; }
+:root[data-mode="arcade"] .field__hint { color: var(--muted); }
+:root[data-mode="arcade"] .field input[type="range"] { accent-color: var(--accent); }
+:root[data-mode="arcade"] .field select {
+  border-radius: 0; border: 2px solid var(--line-strong); background: #05060f; color: var(--ink);
+  font-family: var(--font-mono); font-size: 1.05rem;
+}
+:root[data-mode="arcade"] .switch { font-family: var(--font-mono); font-size: 1.05rem; }
+:root[data-mode="arcade"] .switch input { accent-color: var(--accent); }
+:root[data-mode="arcade"] .scorer__result { background: #05060f; border: 3px solid var(--line-strong); }
+:root[data-mode="arcade"] .result__verdict { font-size: clamp(0.9rem, 0.6rem + 1.4vw, 1.4rem); }
+:root[data-mode="arcade"] .result__score,
+:root[data-mode="arcade"] .result__bar { font-family: var(--font-mono); }
+:root[data-mode="arcade"] .result__bar { border: 2px solid var(--line-strong); border-radius: 0; height: 14px; }
+:root[data-mode="arcade"] .result__bar span { image-rendering: pixelated; }
+:root[data-mode="arcade"] .result--high { box-shadow: 0 0 0 2px var(--fit-high), 6px 6px 0 rgba(0,0,0,0.5); }
+:root[data-mode="arcade"] .result--low { box-shadow: 0 0 0 2px var(--fit-low), 6px 6px 0 rgba(0,0,0,0.5); }
+/* VS tag injected by JS */
+:root[data-mode="arcade"] .result__vs {
+  font-family: var(--font-serif); font-size: 0.55rem; color: var(--arc-yellow);
+  display: block; margin-bottom: 0.3rem;
+}
+.result__vs { display: none; }  /* pro mode hides it */
+
+/* ---- Credentials → HIGH SCORES ---------------------------------------- */
+:root[data-mode="arcade"] .creds__h { color: var(--arc-yellow); border-bottom: 2px solid var(--line); }
+:root[data-mode="arcade"] .creds__list--bullets li::before { content: "\2726"; color: var(--accent); }
+:root[data-mode="arcade"] .cred__role { font-family: var(--font-mono); font-size: 1.2rem; color: var(--arc-green); }
+:root[data-mode="arcade"] .cred__org { color: var(--arc-blue); }
+
+/* ---- Writing / essay -------------------------------------------------- */
+:root[data-mode="arcade"] .essay:hover { box-shadow: 8px 8px 0 rgba(0,0,0,0.5); transform: translate(-2px,-2px); }
+:root[data-mode="arcade"] .essay__quote { color: var(--arc-yellow); }
+:root[data-mode="arcade"] .essay__side-label { font-family: var(--font-serif); font-size: 0.5rem; }
+
+/* ---- Contact ---------------------------------------------------------- */
+:root[data-mode="arcade"] .footer { border-top: 3px solid var(--accent); background: #05060f; }
+:root[data-mode="arcade"] .footer__inner { font-family: var(--font-mono); font-size: 1.05rem; }
+
+/* =========================================================================
+   BOOT / TITLE SCREEN
+   ========================================================================= */
+.boot.is-on {
+  display: grid; place-items: center; position: fixed; inset: 0; z-index: 200;
+  background: radial-gradient(circle at 50% 40%, #1b2255 0%, #070917 70%);
+  text-align: center; padding: 1.5rem; cursor: pointer;
+  animation: boot-in 0.2s ease both;
+}
+.boot__inner { display: grid; gap: 1.4rem; }
+.boot__logo {
+  font-family: "Press Start 2P", monospace; color: var(--arc-yellow, #ffd53d);
+  font-size: clamp(1.6rem, 1rem + 4vw, 3.4rem); line-height: 1.4;
+  text-shadow: 4px 4px 0 #ff5aa8, 8px 8px 0 rgba(0,0,0,0.5);
+}
+.boot__sub {
+  font-family: "Press Start 2P", monospace; color: #46b5ff;
+  font-size: clamp(0.5rem, 0.35rem + 1vw, 0.8rem); line-height: 1.7;
+}
+.boot__press {
+  font-family: "Press Start 2P", monospace; color: #f2f4ff; margin-top: 0.8rem;
+  font-size: clamp(0.7rem, 0.5rem + 1.2vw, 1.1rem);
+  animation: arc-blink 0.9s steps(1) infinite;
+}
+.boot__coin { font-family: "VT323", monospace; color: #8b93cf; font-size: 1.1rem; letter-spacing: 0.1em; }
+.boot.is-off { animation: boot-out 0.35s ease both; pointer-events: none; }
+@keyframes boot-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes boot-out { to { opacity: 0; transform: scale(1.04); visibility: hidden; } }
+
+/* =========================================================================
+   Reduced motion
+   ========================================================================= */
+@media (prefers-reduced-motion: reduce) {
+  :root[data-mode="arcade"] .mode-toggle,
+  .boot__press { animation: none; }
+  :root[data-mode="arcade"] #tetrisBg { display: none; }
+}
+
+/* =========================================================================
+   Mobile: keep pixel type from overflowing
+   ========================================================================= */
+@media (max-width: 560px) {
+  :root[data-mode="arcade"] body { font-size: 1.2rem; }
+  :root[data-mode="arcade"] .hero__title { font-size: 1.05rem; line-height: 1.7; }
+  :root[data-mode="arcade"] .nav__brand { font-size: 0.6rem; }
+  :root[data-mode="arcade"] .nav__links a { font-size: 0.95rem; }
+  :root[data-mode="arcade"] .eyebrow,
+  :root[data-mode="arcade"] .creds__h,
+  :root[data-mode="arcade"] .case__sub { font-size: 0.55rem; }
+}

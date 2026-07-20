@@ -13,12 +13,25 @@
   <meta property="og:title" content="Ian Wilder — Strategic Enterprise AE who builds his own pipeline" />
   <meta property="og:description" content="Closer's judgment, builder's hands. I sell complex products and AI integrations into complex orgs and engineer the GTM systems that source the pipeline." />
 
+  <script>try{var m=localStorage.getItem('iw-mode');if(m==='arcade')document.documentElement.setAttribute('data-mode','arcade');var t=localStorage.getItem('iw-theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t);}catch(e){}</script>
   <link rel="preload" href="css/styles.css" as="style" />
   <link rel="stylesheet" href="css/styles.css" />
   <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/arcade.css" />
 </head>
 <body>
   <a href="#work" class="sr-only">Skip to work</a>
+
+  <!-- Arcade-mode layers (inert in PRO mode) -->
+  <canvas id="tetrisBg" aria-hidden="true"></canvas>
+  <div id="bootScreen" class="boot" aria-hidden="true">
+    <div class="boot__inner">
+      <div class="boot__logo">IAN<br>WILDER</div>
+      <div class="boot__sub">STRATEGIC AE // GTM ENGINEER</div>
+      <div class="boot__press">PRESS START</div>
+      <div class="boot__coin">▸ TAP / ANY KEY TO SKIP</div>
+    </div>
+  </div>
 
   <!-- ===================== NAV ===================== -->
   <header class="nav">
@@ -28,13 +41,17 @@
         <a href="#work">Work</a>
         <a href="#writing" class="nav--optional">Writing</a>
         <a href="#scorer">Scorer</a>
-        <a href="#credentials">Credentials</a>
+        <a href="#credentials" class="nav--optional">Credentials</a>
         <a href="#principles" class="nav--optional">Principles</a>
         <a href="#contact">Contact</a>
       </nav>
-      <button id="themeToggle" class="theme-toggle" type="button" aria-label="Toggle colour theme" title="Toggle theme">
-        <span aria-hidden="true" class="theme-toggle__icon">◐</span>
-      </button>
+      <div class="nav__controls">
+        <button id="soundToggle" class="sound-toggle" type="button" aria-pressed="false" title="Toggle 8-bit sound">♪ OFF</button>
+        <button id="modeToggle" class="mode-toggle" type="button" title="Switch between PRO and ARCADE mode"><span class="mode-toggle__icon" aria-hidden="true">🕹</span><span class="mode-toggle__label">ARCADE</span></button>
+        <button id="themeToggle" class="theme-toggle" type="button" aria-label="Toggle colour theme" title="Toggle theme">
+          <span aria-hidden="true" class="theme-toggle__icon">◐</span>
+        </button>
+      </div>
     </div>
   </header>
 
@@ -424,5 +441,6 @@ Campaign Events / Replies / blocklist ✔ WIRED
   </footer>
 
   <script src="js/site.js" defer></script>
+  <script src="js/arcade.js" defer></script>
 </body>
 </html>
