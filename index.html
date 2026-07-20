@@ -14,10 +14,10 @@
   <meta property="og:description" content="Closer's judgment, builder's hands. I sell complex products and AI integrations into complex orgs and engineer the GTM systems that source the pipeline." />
 
   <script>try{if(localStorage.getItem('iw-mode')==='pro')document.documentElement.setAttribute('data-mode','pro');var t=localStorage.getItem('iw-theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t);}catch(e){}</script>
-  <link rel="preload" href="css/styles.css" as="style" />
-  <link rel="stylesheet" href="css/styles.css" />
-  <link rel="stylesheet" href="css/components.css" />
-  <link rel="stylesheet" href="css/arcade.css" />
+  <link rel="preload" href="css/styles.css?v=2" as="style" />
+  <link rel="stylesheet" href="css/styles.css?v=2" />
+  <link rel="stylesheet" href="css/components.css?v=2" />
+  <link rel="stylesheet" href="css/arcade.css?v=2" />
 </head>
 <body>
   <a href="#work" class="sr-only">Skip to work</a>
@@ -58,60 +58,37 @@
   </header>
 
   <main id="top">
-    <!-- ===================== HERO ===================== -->
+    <!-- ===================== HERO + STAGE SELECT (hub) ===================== -->
     <section class="hero" data-screen="hub">
-      <div class="wrap">
-        <p class="eyebrow">Strategic Enterprise AE · GTM Engineer</p>
-        <h1 class="hero__title">
-          I sell complex products and AI integrations into complex orgs&nbsp;— and I build the
-          <span class="u-accent">machine that sources the pipeline.</span>
-        </h1>
-        <p class="hero__lead measure">
-          Founding enterprise seller at Zillow Rentals. I map markets, engineer the
-          outbound systems that warm cold accounts, and get in the room with the
-          people who sign. Closer's judgment, builder's hands.
-        </p>
-        <div class="hero__cta">
-          <a class="btn btn--primary" href="#work">See the work</a>
-          <a class="btn" href="#scorer">Try the scorer &rarr;</a>
+      <div class="wrap hero__grid">
+        <div class="hero__intro">
+          <p class="eyebrow">Strategic Enterprise AE · GTM Engineer</p>
+          <h1 class="hero__title">
+            I sell complex products and AI integrations into complex orgs&nbsp;— and I build the
+            <span class="u-accent">machine that sources the pipeline.</span>
+          </h1>
+          <p class="hero__lead measure">
+            Founding enterprise seller at Zillow Rentals. I map markets, engineer the
+            outbound systems that warm cold accounts, and get in the room with the
+            people who sign. Closer's judgment, builder's hands.
+          </p>
+          <div class="hero__cta">
+            <a class="btn btn--primary" href="#work">See the work</a>
+            <a class="btn" href="#scorer">Try the scorer &rarr;</a>
+          </div>
         </div>
-      </div>
-    </section>
 
-    <!-- ===================== STAGE SELECT (arcade hub only) ===================== -->
-    <section class="stage-select" data-screen="hub" aria-label="Stage select">
-      <div class="wrap">
-        <p class="eyebrow">Select stage — ▲ ▼ move · ↵ enter</p>
-        <div class="stage-grid" id="stageGrid">
-          <a class="stage" href="#work" data-c="blue">
-            <span class="stage__no mono">STAGE 1</span>
-            <span class="stage__icon" aria-hidden="true">🥊</span>
-            <span class="stage__name">THE WORK</span>
-            <span class="stage__hint">3 case studies — build logs, metrics, K.O.'s</span>
-          </a>
-          <a class="stage" href="#scorer" data-c="pink">
-            <span class="stage__no mono">STAGE 2</span>
-            <span class="stage__icon" aria-hidden="true">🎯</span>
-            <span class="stage__name">SPARRING</span>
-            <span class="stage__hint">the live lead scorer — SEND / DODGE</span>
-          </a>
-          <a class="stage" href="#credentials" data-c="yellow">
-            <span class="stage__no mono">HIGH SCORES</span>
-            <span class="stage__icon" aria-hidden="true">🏆</span>
-            <span class="stage__name">THE RECORD</span>
-            <span class="stage__hint">experience · results · education</span>
-          </a>
-          <a class="stage" href="#writing" data-c="green">
-            <span class="stage__no mono">STORY</span>
-            <span class="stage__icon" aria-hidden="true">📜</span>
-            <span class="stage__name">THE THESIS</span>
-            <span class="stage__hint">Alpha Hasn't Changed. Reach Has.</span>
-          </a>
-        </div>
-        <div class="stage-extra">
-          <a class="btn btn--primary" href="#contact">▸ CONTINUE — CONTACT</a>
-          <a class="btn" href="#principles">HOUSE RULES</a>
-        </div>
+        <nav class="stage-select" aria-label="Stage select">
+          <p class="stage-select__title">Select stage — ▲▼ / ↵</p>
+          <ul class="stage-menu" id="stageGrid">
+            <li><a class="stage" href="#work" data-c="blue"><span class="stage__no mono">01</span><span class="stage__text"><span class="stage__name">THE WORK</span><span class="stage__hint">3 case studies — build logs &amp; K.O.'s</span></span></a></li>
+            <li><a class="stage" href="#scorer" data-c="pink"><span class="stage__no mono">02</span><span class="stage__text"><span class="stage__name">SPARRING</span><span class="stage__hint">the live lead scorer — SEND / DODGE</span></span></a></li>
+            <li><a class="stage" href="#credentials" data-c="yellow"><span class="stage__no mono">03</span><span class="stage__text"><span class="stage__name">HIGH SCORES</span><span class="stage__hint">experience · results · education</span></span></a></li>
+            <li><a class="stage" href="#writing" data-c="green"><span class="stage__no mono">04</span><span class="stage__text"><span class="stage__name">THE THESIS</span><span class="stage__hint">Alpha Hasn't Changed. Reach Has.</span></span></a></li>
+            <li><a class="stage" href="#principles" data-c="blue"><span class="stage__no mono">05</span><span class="stage__text"><span class="stage__name">HOUSE RULES</span><span class="stage__hint">how I work</span></span></a></li>
+            <li><a class="stage" href="#contact" data-c="pink"><span class="stage__no mono">06</span><span class="stage__text"><span class="stage__name">CONTACT</span><span class="stage__hint">say hello</span></span></a></li>
+          </ul>
+        </nav>
       </div>
     </section>
 
@@ -138,7 +115,7 @@
     </section>
 
     <!-- ===================== PRINCIPLES ===================== -->
-    <section id="principles" class="section" data-screen="hub">
+    <section id="principles" class="section" data-screen="principles">
       <div class="wrap">
         <p class="eyebrow">How I work</p>
         <h2 class="section__title measure">Most sellers spray accounts. I earn one real conversation — and I engineer the system that finds it.</h2>
@@ -479,7 +456,7 @@ Campaign Events / Replies / blocklist ✔ WIRED
     </div>
   </footer>
 
-  <script src="js/site.js" defer></script>
-  <script src="js/arcade.js" defer></script>
+  <script src="js/site.js?v=2" defer></script>
+  <script src="js/arcade.js?v=2" defer></script>
 </body>
 </html>

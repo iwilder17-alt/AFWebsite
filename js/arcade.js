@@ -289,11 +289,9 @@
     var tiles = Array.prototype.slice.call(document.querySelectorAll("#stageGrid .stage"));
     var idx = tiles.indexOf(document.activeElement);
     if (idx < 0) return;
-    var cols = window.matchMedia("(min-width:640px)").matches ? 2 : 1, n = idx;
-    if (e.key === "ArrowRight") n = Math.min(tiles.length - 1, idx + 1);
-    else if (e.key === "ArrowLeft") n = Math.max(0, idx - 1);
-    else if (e.key === "ArrowDown") n = Math.min(tiles.length - 1, idx + cols);
-    else if (e.key === "ArrowUp") n = Math.max(0, idx - cols);
+    var n = idx;
+    if (e.key === "ArrowDown" || e.key === "ArrowRight") n = Math.min(tiles.length - 1, idx + 1);
+    else if (e.key === "ArrowUp" || e.key === "ArrowLeft") n = Math.max(0, idx - 1);
     else return;
     e.preventDefault(); tiles[n].focus(); snd.blip();
   });

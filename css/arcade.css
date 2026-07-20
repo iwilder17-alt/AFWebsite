@@ -251,36 +251,53 @@
 .stage-select, .stage-back { display: none; }
 
 :root[data-mode="arcade"] .stage-select { display: block; }
-:root[data-mode="arcade"] .hero__cta { display: none; }          /* grid replaces CTAs */
+:root[data-mode="arcade"] .hero__cta { display: none; }          /* menu replaces CTAs */
 /* one screen at a time */
 :root[data-mode="arcade"] [data-screen][hidden] { display: none !important; }
 :root[data-mode="arcade"] [data-screen]:not([hidden]) { animation: screen-in 0.28s ease both; }
 
-.stage-grid { display: grid; gap: 1rem; margin-top: 1.5rem; }
-@media (min-width: 640px) { .stage-grid { grid-template-columns: 1fr 1fr; gap: 1.4rem; } }
+/* Hub top: the "what I do" text sits beside the stage menu */
+:root[data-mode="arcade"] .hero { padding-block: clamp(1.8rem, 1rem + 4vw, 3.6rem); }
+:root[data-mode="arcade"] .hero__grid { display: grid; gap: 2rem; align-items: start; }
+@media (min-width: 860px) {
+  :root[data-mode="arcade"] .hero__grid {
+    grid-template-columns: 1.15fr 0.85fr; gap: clamp(2rem, 4vw, 4rem);
+  }
+}
+:root[data-mode="arcade"] .hero__title { font-size: clamp(1rem, 0.7rem + 1.9vw, 1.7rem); }
+:root[data-mode="arcade"] .hero__lead { font-size: clamp(1.1rem, 1rem + 0.5vw, 1.35rem); }
+:root[data-mode="arcade"] .stage-select { border-left: 3px solid var(--line); padding-left: 1.2rem; }
+@media (max-width: 859px) { :root[data-mode="arcade"] .stage-select { border-left: 0; padding-left: 0; } }
+
+/* Stage menu — vertical arcade main-menu */
+.stage-select__title {
+  font-family: var(--font-serif); font-size: 0.6rem; color: var(--arc-yellow);
+  letter-spacing: 0.03em; margin: 0;
+}
+.stage-menu { list-style: none; margin: 1.1rem 0 0; padding: 0; display: grid; gap: 0.55rem; }
 .stage {
   --sc: var(--arc-blue);
-  display: grid; gap: 0.4rem; text-decoration: none; color: var(--ink);
-  border: 3px solid var(--line-strong); background: #05060f; padding: 1.1rem 1.2rem;
-  box-shadow: 5px 5px 0 rgba(0,0,0,0.5); position: relative; transition: transform .1s, border-color .15s, box-shadow .1s;
+  display: flex; align-items: center; gap: 0.9rem; text-decoration: none; color: var(--ink);
+  border: 2px solid var(--line); border-left: 4px solid var(--sc); background: #05060f;
+  padding: 0.7rem 0.9rem; box-shadow: 3px 3px 0 rgba(0,0,0,0.5); position: relative;
+  transition: transform .1s, border-color .15s, background .15s;
 }
 .stage[data-c="blue"]   { --sc: var(--arc-blue); }
 .stage[data-c="pink"]   { --sc: var(--accent); }
 .stage[data-c="yellow"] { --sc: var(--arc-yellow); }
 .stage[data-c="green"]  { --sc: var(--arc-green); }
 .stage:hover, .stage:focus-visible {
-  border-color: var(--sc); color: var(--ink); outline: none;
-  transform: translate(-2px, -2px); box-shadow: 7px 7px 0 rgba(0,0,0,0.55);
+  outline: none; color: var(--ink); border-color: var(--sc);
+  background: color-mix(in srgb, var(--sc) 12%, #05060f); transform: translateX(5px);
 }
 .stage:hover::before, .stage:focus-visible::before {
-  content: "\25B6"; position: absolute; left: -1.4rem; top: 1.1rem; color: var(--sc);
+  content: "\25B6"; position: absolute; left: -1.25rem; color: var(--sc);
   animation: arc-blink 0.7s steps(1) infinite;
 }
-.stage__no { font-family: var(--font-serif); font-size: 0.5rem; color: var(--sc); letter-spacing: 0.04em; }
-.stage__icon { font-size: 1.9rem; line-height: 1; }
-.stage__name { font-family: var(--font-serif); font-size: 0.8rem; color: var(--ink); text-shadow: 3px 3px 0 rgba(0,0,0,0.6); }
-.stage__hint { font-size: 1.05rem; color: var(--muted); line-height: 1.3; }
-.stage-extra { display: flex; gap: 0.8rem; flex-wrap: wrap; margin-top: 1.5rem; }
+.stage__no { font-family: var(--font-serif); font-size: 0.6rem; color: var(--sc); flex: none; }
+.stage__text { display: flex; flex-direction: column; gap: 0.15rem; min-width: 0; }
+.stage__name { font-family: var(--font-serif); font-size: 0.68rem; color: var(--ink); text-shadow: 2px 2px 0 rgba(0,0,0,0.6); }
+.stage__hint { font-size: 1rem; color: var(--muted); line-height: 1.2; }
 
 /* Back-to-hub button (only when not on the hub screen) */
 :root[data-mode="arcade"] body.screen-not-hub .stage-back {
